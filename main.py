@@ -1,6 +1,7 @@
 import os
 import pygame
 import sys
+from dir import Sprites
 
 pygame.font.init()
 
