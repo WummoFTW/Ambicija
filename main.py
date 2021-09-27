@@ -1,7 +1,7 @@
 import os
 import pygame
 import sys
-from . import Sprites
+import sprite_types
 
 pygame.font.init()
 
@@ -59,12 +59,12 @@ def draw_window(): #Visi piesiami dalykai eina cia <3
     WIN.blit(APPLE, (100+World.X, 600+World.Y))
     HOUSE1_rect = pygame.Rect(200 + World.X, 0 + World.Y, 163 * 3, 228 * 3)
     pygame.draw.rect(WIN, BLACK, HOUSE1_rect)
-    if World.Y > -50:
+    """if World.Y > -50:
         WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))
         WIN.blits([(HOUSE, (200+ World.X, 0+World.Y)), (APPLE, (800+ World.X, 800+World.Y))])
     else:
         WIN.blits([(HOUSE, (200 + World.X, 0 + World.Y)), (APPLE, (800 + World.X, 800 + World.Y))])
-        WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))
+        WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))"""
     WIN.blit(FONT.render( str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1850, 6))
 
 
@@ -85,6 +85,7 @@ def controls():
         Player.Rotation = 4
 
 
+main_player = sprite_types.Main_Player(Player.Width, Player.Height, HEIGHT / 2 - Player.Height, WIDTH / 2 - Player.Width, BLACK)
 
 player = Player(Player.Width, Player.Height)
 
@@ -107,6 +108,7 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
 
 
         pygame.display.update()
+        pygame.display.flip()
 
     sys.exit()
     pygame.quit()
