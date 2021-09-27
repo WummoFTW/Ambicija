@@ -8,6 +8,8 @@ class World:
     X = 0
     Y = 0
 
+BUILDINGS = pygame.sprite.Group()
+
 class Player:
     def __init__(self, PWIDTH, PHEIGHT):
         self.width = PWIDTH
@@ -15,6 +17,17 @@ class Player:
 
     def main(self, display):
         pygame.draw.rect(display, (0, 255, 0), (HEIGHT/2-Player.Height/4, WIDTH/2-Player.Width/2, self.width, self.height))
+
+    def collision(self):
+        if pygame.sprite.spritecollide(True, BUILDINGS):
+            if Player.Rotation == 1:
+                World.Y += Player.Speed
+            if Player.Rotation == 2:
+                World.X += Player.Speed
+            if Player.Rotation == 3:
+                World.Y += -Player.Speed
+            if Player.Rotation == 4:
+                World.X += -Player.Speed
 
     Rotation = 1
     Width = 55
@@ -30,6 +43,8 @@ pygame.display.set_caption("AMBICIJA")
 pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
 
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 32)
+
+BLACK = (0, 0, 0)
 GREEN = (0, 255, 100)
 
 
@@ -41,6 +56,8 @@ TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "m
 def draw_window(): #Visi piesiami dalykai eina cia <3
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
     WIN.blit(APPLE, (100+World.X, 600+World.Y))
+    HOUSE1_rect = pygame.Rect(200 + World.X, 0 + World.Y, 163 * 3, 228 * 3)
+    pygame.draw.rect(WIN, BLACK, HOUSE1_rect)
     if World.Y > -50:
         WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))
         WIN.blits([(HOUSE, (200+ World.X, 0+World.Y)), (APPLE, (800+ World.X, 800+World.Y))])
@@ -58,6 +75,7 @@ def controls():
     if keypress[pygame.K_s]:    #Apacia
         World.Y += -Player.Speed
         Player.Rotation = 1
+        print(World.Y)
     if keypress[pygame.K_a]:    #Kaire
         World.X += Player.Speed
         Player.Rotation = 2
