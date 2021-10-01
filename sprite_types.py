@@ -12,15 +12,14 @@ NPC_GROUP = pygame.sprite.Group()
 class Main_Character(pygame.sprite.Sprite):
 
 
-    def __init__(self, color, width, height):
+    def __init__(self):
         # Call the parent class (Sprite) constructor
         super().__init__()
 
         # Pass in the color of the car, and its x and y position, width and height.
         # Set the background color and set it to be transparent
-        self.image = pygame.Surface([Main_Character.Width, Main_Character.Height])
-        self.image.fill(WHITE)
-        self.image.set_colorkey(WHITE)
+
+
         try:
             self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "dood_right2.png")), (Main_Character.Width, Main_Character.Height)).convert_alpha()
         except:
@@ -32,7 +31,7 @@ class Main_Character(pygame.sprite.Sprite):
     Width = 55
     Height = 103
 
-    Speed = 2.5
+    Speed = 3
 
 
 class Building(pygame.sprite.Sprite):
@@ -42,24 +41,14 @@ class Building(pygame.sprite.Sprite):
         # Call the parent class (Sprite) constructor
         super().__init__()
 
-        # Pass in the color of the car, and its x and y position, width and height.
-        # Set the background color and set it to be transparent
-        self.image = pygame.Surface([163*3, 228*3])
-        self.image.fill(WHITE)
-        self.image.set_colorkey(WHITE)
-
-        # Draw the car (a rectangle!)
-        #pygame.draw.rect(self.image, color, [0, 0, width, height])
-
-        # Instead we could load a proper picture of a car...
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "House_object.png")), (163*3, 228*3)).convert_alpha()
+        self.image = pygame.image.load(os.path.join("Assets", "House1.png")).convert_alpha()
 
         # Fetch the rectangle object that has the dimensions of the image.
         self.rect = self.image.get_rect()
 
         Building.X, Building.Y = coord_x, coord_y
 
-    def Update(self):
+    def update(self):
         self.rect.center = (Building.X + World.X, Building.Y + World.Y)
 
     X, Y = 0, 0
