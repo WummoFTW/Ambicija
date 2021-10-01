@@ -21,17 +21,14 @@ class Main_Character(pygame.sprite.Sprite):
         self.image = pygame.Surface([Main_Character.Width, Main_Character.Height])
         self.image.fill(WHITE)
         self.image.set_colorkey(WHITE)
-
-        # Draw the car (a rectangle!)
-        #pygame.draw.rect(self.image, color, [0, 0, Main_Character.Width, Main_Character.Height])
-
-        # Instead we could load a proper picture of a car...
-        self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "dood_right2.png")), (Main_Character.Width, Main_Character.Height)).convert_alpha()
-
+        try:
+            self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "dood_right2.png")), (Main_Character.Width, Main_Character.Height)).convert_alpha()
+        except:
+            pass
         # Fetch the rectangle object that has the dimensions of the image.
         self.rect = self.image.get_rect()
 
-    Rotation = 1
+    Rotation = [False, False, False, False, False]
     Width = 55
     Height = 103
 
@@ -41,7 +38,7 @@ class Main_Character(pygame.sprite.Sprite):
 class Building(pygame.sprite.Sprite):
     # This class represents a car. It derives from the "Sprite" class in Pygame.
 
-    def __init__(self):
+    def __init__(self, coord_x, coord_y):
         # Call the parent class (Sprite) constructor
         super().__init__()
 
@@ -60,9 +57,12 @@ class Building(pygame.sprite.Sprite):
         # Fetch the rectangle object that has the dimensions of the image.
         self.rect = self.image.get_rect()
 
-    def Update(self, coord_x, coord_y):
-        self.rect.center = (coord_x + World.X, coord_y + World.Y)
+        Building.X, Building.Y = coord_x, coord_y
 
+    def Update(self):
+        self.rect.center = (Building.X + World.X, Building.Y + World.Y)
+
+    X, Y = 0, 0
 #https://www.youtube.com/watch?v=hDu8mcAlY4E&ab_channel=ClearCode
 
 #https://www.youtube.com/watch?v=jO6qQDNa2UY&t=2387s&ab_channel=TechWithTim

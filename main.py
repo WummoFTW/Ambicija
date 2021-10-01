@@ -26,7 +26,7 @@ Player.rect.y = WIDTH / 2 - Player.Width / 2
 
 sprite_types.PLAYER_GROUP.add(Player)
 
-Pastatas = sprite_types.Building()
+Pastatas = sprite_types.Building(500, 500)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
 
@@ -39,8 +39,7 @@ TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "m
 def draw_window(): #Visi piesiami dalykai eina cia <3
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
     WIN.blit(APPLE, (100+World.X, 600+World.Y))
-    #HOUSE1_rect = pygame.Rect(200 + World.X, 0 + World.Y, 163 * 3, 228 * 3)
-    #pygame.draw.rect(WIN, BLACK, HOUSE1_rect)
+
     """if World.Y > -50:
         WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))
         WIN.blits([(HOUSE, (200+ World.X, 0+World.Y)), (APPLE, (800+ World.X, 800+World.Y))])
@@ -54,31 +53,39 @@ def controls():
     keypress = pygame.key.get_pressed()
     if keypress[pygame.K_w]:    #Virsus
         World.Y += Player.Speed
-        Player.Rotation = 3
+        Player.Rotation[3] = True
+    else:
+        Player.Rotation[3] = False
+
     if keypress[pygame.K_s]:    #Apacia
         World.Y += -Player.Speed
-        Player.Rotation = 1
+        Player.Rotation[1] = True
+    else:
+        Player.Rotation[1] = False
+
     if keypress[pygame.K_a]:    #Kaire
         World.X += Player.Speed
-        Player.Rotation = 2
+        Player.Rotation[2] = True
+    else:
+        Player.Rotation[2] = False
     if keypress[pygame.K_d]:    #Desine
         World.X += -Player.Speed
-        Player.Rotation = 4
+        Player.Rotation[4] = True
+    else:
+        Player.Rotation[4] = False
 
 def collision():
     if pygame.sprite.spritecollide(Player, sprite_types.BUILDINGS_GROUP, dokill=False):
-        if Player.Rotation == 1:
+        if Player.Rotation[1] == True:
             World.Y += Player.Speed
-        if Player.Rotation == 2:
+        if Player.Rotation[2] == True:
             World.X += -Player.Speed
-        if Player.Rotation == 3:
+        if Player.Rotation[3] == True:
             World.Y += -Player.Speed
-        if Player.Rotation == 4:
+        if Player.Rotation[4] == True:
             World.X += Player.Speed
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
-
-    #gali buti, kad rect apverstas
 
     run = True
     while run:
@@ -86,11 +93,12 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+        collision()
         controls()
         draw_window()
         fps_val = str(clock.get_fps())
-        collision()
-        Pastatas.Update(100, 100)
+
+        Pastatas.Update()
         sprite_types.BUILDINGS_GROUP.update()
         sprite_types.BUILDINGS_GROUP.draw(WIN)
         sprite_types.PLAYER_GROUP.update()
@@ -98,7 +106,7 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
 
         pygame.display.update()
         pygame.display.flip()
-        print(Player.Rotation)
+
     sys.exit()
     pygame.quit()
 
