@@ -5,6 +5,7 @@ import sprite_types
 import World
 
 pygame.font.init()
+pygame.joystick.init()
 
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
@@ -16,7 +17,7 @@ pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
 
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
 
-
+gamepad = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -53,6 +54,19 @@ def draw_window(): #Visi piesiami dalykai eina cia <3
 def show_info():
     WIN.blit(FONT.render(str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1850, 6))
     WIN.blit(FONT.render(str(str(World.X) + " " + str(World.Y)), True, (255, 255, 255, 255), (0, 0, 0, 255)), (6, 1040))
+
+def gamepad_controls(event):
+    if event.type == pygame.JOYBUTTONDOWN:
+        if event.button == 0:
+            print("BRUH")
+    if event.type == pygame.JOYAXISMOTION:
+        if event.axis == 0:
+            World.X += -Player.Speed * event.value
+            print(event.value)
+
+
+
+
 
 def controls():
     keypress = pygame.key.get_pressed()
@@ -116,7 +130,8 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         collision()
         controls()
 
-        WIN.fill((50,50,50))
+
+        WIN.fill((50, 50, 50))
         draw_window()
 
         sprite_types.BUILDINGS_GROUP.update()
