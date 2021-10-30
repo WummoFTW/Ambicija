@@ -2,7 +2,7 @@ import os
 import pygame
 import sys
 
-
+WIDTH, HEIGHT = 1080, 1920
 X = 0
 Y = 0
 

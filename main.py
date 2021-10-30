@@ -43,13 +43,6 @@ def draw_window(): #Visi piesiami dalykai eina cia <3
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
     #WIN.blit(APPLE, (100+World.X, 600+World.Y))
 
-    """if World.Y > -50:
-        WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))
-        WIN.blits([(HOUSE, (200+ World.X, 0+World.Y)), (APPLE, (800+ World.X, 800+World.Y))])
-    else:
-        WIN.blits([(HOUSE, (200 + World.X, 0 + World.Y)), (APPLE, (800 + World.X, 800 + World.Y))])
-        WIN.blit(DOOD, (HEIGHT / 2 - Player.Height / 4, WIDTH / 2 - Player.Width / 2))"""
-
 
 def show_info():
     WIN.blit(FONT.render(str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1850, 6))
@@ -97,20 +90,21 @@ def controls():
 
 
 def collision():
+    keypress = pygame.key.get_pressed()
     if pygame.sprite.spritecollideany(Player, sprite_types.BUILDINGS_GROUP) and Player.Rotation[0] != True:
-        if Player.Rotation[1] == True:
+        if Player.Rotation[1] == True:    #Apacia
             World.Y += Player.Speed
 
 
-        if Player.Rotation[2] == True:
+        if Player.Rotation[2] == True:    #Kaire
             World.X += -Player.Speed
 
 
-        if Player.Rotation[3] == True:
+        if Player.Rotation[3] == True:    #Virsus
             World.Y += -Player.Speed
 
 
-        if Player.Rotation[4] == True:
+        if Player.Rotation[4] == True:    #Desine
             World.X += Player.Speed
 
 
