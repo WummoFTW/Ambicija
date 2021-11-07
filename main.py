@@ -33,9 +33,11 @@ sprite_types.PLAYER_GROUP.add(Player)
 
 sprite_types.PLAYER_COLLISION.add(Player_Collision)
 
-Pastatas = sprite_types.Building(1000, 1000)
+Pastatas = sprite_types.Building(1000, 1000, 1)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
+
+
 
 APPLE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Apple.png")), (44, 52)).convert_alpha()
 HOUSE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "House_object.png")), (163*3, 228*3)).convert_alpha()
@@ -87,14 +89,11 @@ def collision():
         if Player.Rotation[1] == True:    #Apacia
             World.Y += Player.Speed
 
-
         if Player.Rotation[2] == True:    #Kaire
             World.X += -Player.Speed
 
-
         if Player.Rotation[3] == True:    #Virsus
             World.Y += -Player.Speed
-
 
         if Player.Rotation[4] == True:    #Desine
             World.X += Player.Speed
@@ -116,10 +115,8 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         collision()
         controls()
 
-
         WIN.fill((50, 50, 50))
         draw_window()
-
 
         sprite_types.BUILDINGS_GROUP.update()
         sprite_types.BUILDINGS_GROUP.draw(WIN)
