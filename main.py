@@ -5,7 +5,6 @@ import sprite_types
 import World
 
 pygame.font.init()
-pygame.joystick.init()
 
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
@@ -17,17 +16,22 @@ pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
 
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
 
-gamepad = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 100)
 
 Player = sprite_types.Main_Character()
-Player.rect.x = HEIGHT / 2 - Player.Height / 4
+Player.rect.x = HEIGHT / 2 - Player.Height / 2
 Player.rect.y = WIDTH / 2 - Player.Width / 2
 
+Player_Collision = sprite_types.Main_Character_Collision()
+Player_Collision.rect.x = HEIGHT / 2 - 36
+Player_Collision.rect.y = WIDTH / 2 + 52
+
+
 sprite_types.PLAYER_GROUP.add(Player)
+
+sprite_types.PLAYER_COLLISION.add(Player_Collision)
 
 Pastatas = sprite_types.Building(1000, 1000)
 
@@ -47,18 +51,6 @@ def draw_window(): #Visi piesiami dalykai eina cia <3
 def show_info():
     WIN.blit(FONT.render(str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1850, 6))
     WIN.blit(FONT.render(str(str(World.X) + " " + str(World.Y)), True, (255, 255, 255, 255), (0, 0, 0, 255)), (6, 1040))
-
-def gamepad_controls(event):
-    if event.type == pygame.JOYBUTTONDOWN:
-        if event.button == 0:
-            print("BRUH")
-    if event.type == pygame.JOYAXISMOTION:
-        if event.axis == 0:
-            World.X += -Player.Speed * event.value
-            print(event.value)
-
-
-
 
 
 def controls():
@@ -91,7 +83,7 @@ def controls():
 
 def collision():
     keypress = pygame.key.get_pressed()
-    if pygame.sprite.spritecollideany(Player, sprite_types.BUILDINGS_GROUP) and Player.Rotation[0] != True:
+    if pygame.sprite.spritecollideany(Player_Collision, sprite_types.BUILDINGS_GROUP) and Player.Rotation[0] != True:
         if Player.Rotation[1] == True:    #Apacia
             World.Y += Player.Speed
 
@@ -128,16 +120,20 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         WIN.fill((50, 50, 50))
         draw_window()
 
+
         sprite_types.BUILDINGS_GROUP.update()
         sprite_types.BUILDINGS_GROUP.draw(WIN)
+        sprite_types.PLAYER_COLLISION.update()
+        sprite_types.PLAYER_COLLISION.draw(WIN)
         sprite_types.PLAYER_GROUP.update()
         sprite_types.PLAYER_GROUP.draw(WIN)
         show_info()
         pygame.display.update()
         pygame.display.flip()
 
-    sys.exit()
     pygame.quit()
+    sys.exit()
+
 
 if __name__ == "__main__": # Patikrina ar failas nebuvo importuotas
     main()
