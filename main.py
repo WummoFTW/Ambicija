@@ -37,7 +37,8 @@ Pastatas = sprite_types.Building(1000, 1000, 1)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
 
-
+sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 1000, 1))
+sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 0, 2))
 
 APPLE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Apple.png")), (44, 52)).convert_alpha()
 HOUSE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "House_object.png")), (163*3, 228*3)).convert_alpha()

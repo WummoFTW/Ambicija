@@ -79,12 +79,15 @@ class Building(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        Building.X, Building.Y = coord_x, coord_y
+        self.X, self.Y = coord_x, coord_y
 
     def update(self):
-        self.rect.center = (Building.X + World.X, Building.Y + World.Y)
+        self.rect.center = (self.X + World.X, self.Y + World.Y)
 
-    X, Y = 0, 0
+    def place(self, coord_x, coord_y, type):
+        return Building(coord_x, coord_y, type)
+
+
 
 
 
