@@ -21,16 +21,14 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 100)
 
 Player = sprite_types.Main_Character()
-Player.rect.x = HEIGHT / 2 - Player.Height / 2
-Player.rect.y = WIDTH / 2 - Player.Width / 2
+Player.rect.center = (HEIGHT / 2, WIDTH / 2)
 
 Player_Collision = sprite_types.Main_Character_Collision()
-Player_Collision.rect.x = HEIGHT / 2 - 36
-Player_Collision.rect.y = WIDTH / 2 + 52
+Player_Collision.rect.center = (HEIGHT / 2, WIDTH / 2)
+
 
 
 sprite_types.PLAYER_GROUP.add(Player)
-
 sprite_types.PLAYER_COLLISION.add(Player_Collision)
 
 Pastatas = sprite_types.Building(1000, 1000, 1)
@@ -105,7 +103,7 @@ print(Pastatas.image.get_rect())
 
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
-
+    Pastatas.place(10,0,2)
     run = True
     while run:
         clock.tick(FPS)
