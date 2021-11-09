@@ -13,7 +13,7 @@ FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
 pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
-
+pygame.mouse.set_visible(False)
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
 
 WHITE = (255, 255, 255)
@@ -39,14 +39,15 @@ sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 1000, 1))
 sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 0, 2))
 
 APPLE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Apple.png")), (44, 52)).convert_alpha()
-HOUSE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "House_object.png")), (163*3, 228*3)).convert_alpha()
+CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
 TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "map 1.1.png")), (4244*3, 3000*3)).convert()
 
 
 
 def draw_window(): #Visi piesiami dalykai eina cia <3
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
-    #WIN.blit(APPLE, (100+World.X, 600+World.Y))
+    WIN.blit(CURSOR, (pygame.mouse.get_pos()[0]-9,pygame.mouse.get_pos()[1]-9))
+
 
 
 def show_info():

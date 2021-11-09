@@ -21,7 +21,7 @@ class Main_Character(pygame.sprite.Sprite):
         self.Width = 12*3
         self.Height = 24*3
 
-        self.boi = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "TEST BOI.png")).convert_alpha(),(self.Width, self.Height))
+        self.boi = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "TEST BOI.png")).convert_alpha(), (self.Width, self.Height))
 
         self.sprite = pygame.Surface((100, 100))
 
@@ -31,8 +31,6 @@ class Main_Character(pygame.sprite.Sprite):
         self.rect = self.sprite.get_rect()
 
     Rotation = [False, False, False, False, False]
-
-
 
     Speed = 6
 
@@ -54,7 +52,7 @@ class Main_Character(pygame.sprite.Sprite):
         y = pygame.mouse.get_pos()[1] - World.WIDTH/2
         a = -math.degrees(math.atan2(y, x))
 
-        self.sprite.fill((255, 0, 255))
+        self.sprite.fill(MAGENTA)
         modded = Main_Character.rot_center(self.boi, self.rect, a)
 
         self.sprite.blit(modded, (0, 0))
@@ -77,7 +75,6 @@ class Main_Character(pygame.sprite.Sprite):
 """
 
 class Main_Character_Collision(pygame.sprite.Sprite):
-    # This class represents a car. It derives from the "Sprite" class in Pygame.
 
     def __init__(self):
 
