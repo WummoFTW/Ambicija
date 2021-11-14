@@ -16,7 +16,7 @@ NPC_GROUP = pygame.sprite.Group()
 class Main_Character(pygame.sprite.Sprite):
 
     def __init__(self):
-        # Call the parent class (Sprite) constructor
+
         super().__init__()
 
         self.Width = 12*3
@@ -36,13 +36,11 @@ class Main_Character(pygame.sprite.Sprite):
     Speed = 6
 
     def rot_center(image, rect, angle):
-        """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(image, angle)
         rot_rect = rot_image.get_rect(center=rect.center)
         return rot_image
 
     def rot_center_rect(image, rect, angle):
-        """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(image, angle)
         rot_rect = rot_image.get_rect(center=rect.center)
         return rot_rect
@@ -59,21 +57,6 @@ class Main_Character(pygame.sprite.Sprite):
         self.sprite.blit(modded, (0, 0))
         self.rect = Main_Character.rot_center_rect(self.boi, self.rect, self.a)
 
-
-        """
-        if Main_Character.Rotation[2]==True:
-            self.sprite.fill((0,0,0))
-            self.sprite.blit(self.SHEET, (0, 0), (48*3, 0, 48*3, 48*3))
-        if Main_Character.Rotation[4]==True:
-            self.sprite.fill((0,0,0))
-            self.sprite.blit(self.SHEET, (0, 0), (0, 0, 48*3, 48*3))
-        if Main_Character.Rotation[1]==True:
-            self.sprite.fill((0,0,0))
-            self.sprite.blit(self.SHEET, (0, 0), (0, 48*3, 48*3, 48*3))
-        if Main_Character.Rotation[3]==True:
-            self.sprite.fill((0, 0, 0))
-            self.sprite.blit(self.SHEET, (0, 0), (48*3, 48*3, 48*3, 48*3))
-"""
 
 class Main_Character_Collision(pygame.sprite.Sprite):
 
@@ -122,23 +105,24 @@ class Building(pygame.sprite.Sprite):
 
 
 class Bullet(pygame.sprite.Sprite):
-    """This class represents the bullet."""
-    def __init__(self, pos, angle, rel_x, rel_y):
+    def __init__(self, pos, angle):
         super().__init__()
         # PASUKALIOJAM IR SUTVARKOM
         self.image = pygame.transform.rotate(pygame.image.load(os.path.join("Assets", "Bullet.png")), angle)
         self.rect = self.image.get_rect()
-        speed = 5
+        speed = 20
         # TRIGONOMETRIJA XD
         self.velocity_x = math.cos(math.radians(-angle)) * speed
         self.velocity_y = math.sin(math.radians(-angle)) * speed
 
         self.pos = list(pos)
-        self.location = (rel_x, rel_y)
+
 
     def update(self):
-        """ Move the bullet. """
-        self.pos[0] += self.velocity_x
-        self.pos[1] += self.velocity_y
+        """REIKIA NEPAMIRST JU NUZUDYT KADA NORS"""
+        self.pos[0] += self.velocity_x + World.Delta_X
+        self.pos[1] += self.velocity_y + World.Delta_Y
 
         self.rect.center = self.pos
+
+

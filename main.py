@@ -34,8 +34,6 @@ Pastatas = sprite_types.Building(1000, 1000, 1)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
 
-sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 1000, 1))
-sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 0, 2))
 
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
 TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "map 1.1.png")), (3640*2, 2160*2)).convert()
@@ -44,7 +42,7 @@ TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "m
 
 def draw_window(): #Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
-    WIN.blit(CURSOR, (pygame.mouse.get_pos()[0]-9,pygame.mouse.get_pos()[1]-9))
+    WIN.blit(CURSOR, (pygame.mouse.get_pos()[0]-9, pygame.mouse.get_pos()[1]-9))
 
 
 
@@ -81,7 +79,7 @@ def controls():
 
     if keypress[pygame.K_SPACE]:
         # Pass the position and angle of the player.
-        bullet = sprite_types.Bullet(Player.rect.center, Player.a, World.X, World.Y)
+        bullet = sprite_types.Bullet(Player.rect.center, Player.a)
         sprite_types.BULLETS.add(bullet)
 
 
@@ -109,6 +107,8 @@ print(Pastatas.image.get_rect())
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
 
     sprite_types.BUILDINGS_GROUP.add(Pastatas.place(-100, 1000, 1))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 1000, 1))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 0, 2))
 
     run = True
     while run:
@@ -116,22 +116,25 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
+        World.Last_X = World.X
+        World.Last_Y = World.Y
         collision()
         controls()
 
         WIN.fill((50, 50, 50))
         draw_window()
 
-        sprite_types.BUILDINGS_GROUP.update()
-        sprite_types.BUILDINGS_GROUP.draw(WIN)
         sprite_types.BULLETS.update()
         sprite_types.BULLETS.draw(WIN)
+        sprite_types.BUILDINGS_GROUP.update()
+        sprite_types.BUILDINGS_GROUP.draw(WIN)
         sprite_types.PLAYER_COLLISION.update()
         sprite_types.PLAYER_COLLISION.draw(WIN)
         sprite_types.PLAYER_GROUP.update()
         sprite_types.PLAYER_GROUP.draw(WIN)
         show_info()
+
+        World.find_delta()
         pygame.display.update()
         pygame.display.flip()
 
