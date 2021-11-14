@@ -1,4 +1,0 @@
-Trees-1   y=105p   1st tree x=70,  2nd tree 70-150 p
-
-
-HP bar - 224x16   bar start 24, end 222
