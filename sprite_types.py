@@ -33,6 +33,7 @@ class Main_Character(pygame.sprite.Sprite):
 
     Rotation = [False, False, False, False, False]
 
+    Health = 1
     Speed = 6
 
     def rot_center(image, rect, angle):
@@ -74,7 +75,6 @@ class Main_Character_Collision(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, (255, 255, 255), [0, 0, 150, 20])
 
         self.rect = self.image.get_rect()
-        print(self.rect)
 
 Building_IMG = {
     1: "House1.png",
@@ -117,12 +117,17 @@ class Bullet(pygame.sprite.Sprite):
 
         self.pos = list(pos)
 
+        self.lifetime = pygame.time.get_ticks() + 3000
+
+    def removeBullet(self):
+        if pygame.time.get_ticks() >= self.lifetime:
+            self.kill()
+
 
     def update(self):
-        """REIKIA NEPAMIRST JU NUZUDYT KADA NORS"""
         self.pos[0] += self.velocity_x + World.Delta_X
         self.pos[1] += self.velocity_y + World.Delta_Y
 
         self.rect.center = self.pos
 
-
+        self.removeBullet()

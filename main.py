@@ -44,7 +44,7 @@ def draw_window(): #Piesiamos dekoracijos
 
 def draw_UI():
     WIN.blit(HP_BAR, (1464,1040),(0,0,448,32))
-    pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390, 20))
+    pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390*Player.Health, 20))
     WIN.blit(CURSOR, (pygame.mouse.get_pos()[0] - 9, pygame.mouse.get_pos()[1] - 9))
 
 
