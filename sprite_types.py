@@ -10,6 +10,7 @@ WHITE = (255, 255, 255)
 BUILDINGS_GROUP = pygame.sprite.Group()
 PLAYER_GROUP = pygame.sprite.Group()
 PLAYER_COLLISION = pygame.sprite.Group()
+BULLETS = pygame.sprite.Group()
 NPC_GROUP = pygame.sprite.Group()
 
 class Main_Character(pygame.sprite.Sprite):
@@ -50,13 +51,13 @@ class Main_Character(pygame.sprite.Sprite):
 
         x = pygame.mouse.get_pos()[0] - World.HEIGHT/2
         y = pygame.mouse.get_pos()[1] - World.WIDTH/2
-        a = -math.degrees(math.atan2(y, x))
+        self.a = -math.degrees(math.atan2(y, x))
 
         self.sprite.fill(MAGENTA)
-        modded = Main_Character.rot_center(self.boi, self.rect, a)
+        modded = Main_Character.rot_center(self.boi, self.rect, self.a)
 
         self.sprite.blit(modded, (0, 0))
-        self.rect = Main_Character.rot_center_rect(self.boi, self.rect, a)
+        self.rect = Main_Character.rot_center_rect(self.boi, self.rect, self.a)
 
 
         """
@@ -94,7 +95,7 @@ class Main_Character_Collision(pygame.sprite.Sprite):
 
 Building_IMG = {
     1: "House1.png",
-    2: "Swing.png"
+    2: "Trees-2.png"
 
 }
 
@@ -120,11 +121,24 @@ class Building(pygame.sprite.Sprite):
 
 
 
+class Bullet(pygame.sprite.Sprite):
+    """This class represents the bullet."""
+    def __init__(self, pos, angle, rel_x, rel_y):
+        super().__init__()
+        # PASUKALIOJAM IR SUTVARKOM
+        self.image = pygame.transform.rotate(pygame.image.load(os.path.join("Assets", "Bullet.png")), angle)
+        self.rect = self.image.get_rect()
+        speed = 5
+        # TRIGONOMETRIJA XD
+        self.velocity_x = math.cos(math.radians(-angle)) * speed
+        self.velocity_y = math.sin(math.radians(-angle)) * speed
 
+        self.pos = list(pos)
+        self.location = (rel_x, rel_y)
 
+    def update(self):
+        """ Move the bullet. """
+        self.pos[0] += self.velocity_x
+        self.pos[1] += self.velocity_y
 
-
-# https://www.youtube.com/watch?v=hDu8mcAlY4E&ab_channel=ClearCode
-
-# https://www.youtube.com/watch?v=jO6qQDNa2UY&t=2387s&ab_channel=TechWithTim
-
+        self.rect.center = self.pos
