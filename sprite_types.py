@@ -4,6 +4,7 @@ import sys
 import World
 import math
 
+
 MAGENTA = (255, 0, 255)
 WHITE = (255, 255, 255)
 
@@ -77,8 +78,10 @@ class Main_Character_Collision(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 Building_IMG = {
-    1: "House1.png",
-    2: "Trees-2.png"
+    1: "Building-1.png",
+    2: "Theehe.png",
+    3: "Building-3.png",
+    4: "Building-4.png"
 
 }
 
@@ -90,7 +93,8 @@ class Building(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha()
-
+        print(self.image.get_rect()[2])
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha(), (self.image.get_rect()[2]*4, self.image.get_rect()[3]*4))
         self.rect = self.image.get_rect()
 
         self.X, self.Y = coord_x, coord_y
@@ -119,8 +123,12 @@ class Bullet(pygame.sprite.Sprite):
 
         self.lifetime = pygame.time.get_ticks() + 3000
 
+
+
     def removeBullet(self):
         if pygame.time.get_ticks() >= self.lifetime:
+            self.kill()
+        if pygame.sprite.spritecollide(self, BUILDINGS_GROUP, dokill=False):
             self.kill()
 
 
@@ -129,5 +137,4 @@ class Bullet(pygame.sprite.Sprite):
         self.pos[1] += self.velocity_y + World.Delta_Y
 
         self.rect.center = self.pos
-
         self.removeBullet()

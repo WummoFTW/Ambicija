@@ -25,22 +25,21 @@ Player.rect.center = (HEIGHT / 2, WIDTH / 2)
 Player_Collision = sprite_types.Main_Character_Collision()
 Player_Collision.rect.center = (HEIGHT / 2, WIDTH / 2)
 
-
-
 sprite_types.PLAYER_GROUP.add(Player)
 sprite_types.PLAYER_COLLISION.add(Player_Collision)
 
-Pastatas = sprite_types.Building(1000, 1000, 1)
+Pastatas = sprite_types.Building(2000, 2000, 1)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
 
 HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
-TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "map 1.1.png")), (3640*2, 2160*2)).convert()
+TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
 
 
 def draw_window(): #Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
+
 
 def draw_UI():
     WIN.blit(HP_BAR, (1464,1040),(0,0,448,32))
@@ -88,24 +87,29 @@ def controls():
 def collision():
     keypress = pygame.key.get_pressed()
     if pygame.sprite.spritecollideany(Player_Collision, sprite_types.BUILDINGS_GROUP) and Player.Rotation[0] != True:
-        if Player.Rotation[1] == True:    #Apacia
+        if Player.Rotation[1]:    #Apacia
             World.Y += Player.Speed
 
-        if Player.Rotation[2] == True:    #Kaire
+        if Player.Rotation[2]:    #Kaire
             World.X += -Player.Speed
 
-        if Player.Rotation[3] == True:    #Virsus
+        if Player.Rotation[3]:    #Virsus
             World.Y += -Player.Speed
 
-        if Player.Rotation[4] == True:    #Desine
+        if Player.Rotation[4]:    #Desine
             World.X += Player.Speed
 
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
 
-    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(-100, 1000, 1))
-    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 1000, 1))
-    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(0, 0, 2))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(2500, 1000, 3))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(3200, 1600, 1))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(1200, 1300, 2))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(1250, 1000, 2))
+    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(1846, 1050, 2))
+
+    World.X = -1000
+    World.Y = -1000
 
     run = True
     while run:
