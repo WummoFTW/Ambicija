@@ -34,21 +34,23 @@ Pastatas = sprite_types.Building(1000, 1000, 1)
 
 sprite_types.BUILDINGS_GROUP.add(Pastatas)
 
-
+HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
 TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "map 1.1.png")), (3640*2, 2160*2)).convert()
 
 
-
 def draw_window(): #Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
-    WIN.blit(CURSOR, (pygame.mouse.get_pos()[0]-9, pygame.mouse.get_pos()[1]-9))
 
+def draw_UI():
+    WIN.blit(HP_BAR, (1464,1040),(0,0,448,32))
+    pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390, 20))
+    WIN.blit(CURSOR, (pygame.mouse.get_pos()[0] - 9, pygame.mouse.get_pos()[1] - 9))
 
 
 def show_info():
-    WIN.blit(FONT.render(str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1850, 6))
-    WIN.blit(FONT.render(str(str(World.X) + " " + str(World.Y)), True, (255, 255, 255, 255), (0, 0, 0, 255)), (6, 1040))
+    WIN.blit(FONT.render(str(int(clock.get_fps())), True, (255, 255, 255, 255), (0, 0, 0, 255)), (1882, 6))
+    WIN.blit(FONT.render(str(str(World.X) + " " + str(World.Y)), True, (255, 255, 255, 255), (0, 0, 0, 255)), (4, 1060))
 
 
 def controls():
@@ -77,11 +79,10 @@ def controls():
     else:
         Player.Rotation[4] = False
 
-    if keypress[pygame.K_SPACE]:
-        # Pass the position and angle of the player.
+    left, middle, right = pygame.mouse.get_pressed()
+    if left:
         bullet = sprite_types.Bullet(Player.rect.center, Player.a)
         sprite_types.BULLETS.add(bullet)
-
 
 
 def collision():
@@ -98,10 +99,6 @@ def collision():
 
         if Player.Rotation[4] == True:    #Desine
             World.X += Player.Speed
-
-
-print(Pastatas.image.get_rect())
-
 
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
@@ -133,6 +130,7 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         sprite_types.PLAYER_GROUP.update()
         sprite_types.PLAYER_GROUP.draw(WIN)
         show_info()
+        draw_UI()
 
         World.find_delta()
         pygame.display.update()
