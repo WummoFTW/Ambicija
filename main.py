@@ -8,6 +8,7 @@ pygame.font.init()
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
 WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")

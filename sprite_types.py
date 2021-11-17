@@ -35,7 +35,7 @@ class Main_Character(pygame.sprite.Sprite):
     Rotation = [False, False, False, False, False]
 
     Health = 1
-    Speed = 6
+    Speed = 20
 
     def rot_center(image, rect, angle):
         rot_image = pygame.transform.rotate(image, angle)
@@ -77,6 +77,7 @@ class Main_Character_Collision(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
+
 Building_IMG = {
     1: "Building-1.png",
     2: "Theehe.png",
@@ -93,7 +94,7 @@ class Building(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha()
-        print(self.image.get_rect()[2])
+
         self.image = pygame.transform.scale(pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha(), (self.image.get_rect()[2]*4, self.image.get_rect()[3]*4))
         self.rect = self.image.get_rect()
 
@@ -114,14 +115,14 @@ class Bullet(pygame.sprite.Sprite):
         # PASUKALIOJAM IR SUTVARKOM
         self.image = pygame.transform.rotate(pygame.image.load(os.path.join("Assets", "Bullet.png")), angle)
         self.rect = self.image.get_rect()
-        speed = 20
+        speed = 10
         # TRIGONOMETRIJA XD
         self.velocity_x = math.cos(math.radians(-angle)) * speed
         self.velocity_y = math.sin(math.radians(-angle)) * speed
 
         self.pos = list(pos)
 
-        self.lifetime = pygame.time.get_ticks() + 3000
+        self.lifetime = pygame.time.get_ticks() + 30000
 
 
 
@@ -129,7 +130,9 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.time.get_ticks() >= self.lifetime:
             self.kill()
         if pygame.sprite.spritecollide(self, BUILDINGS_GROUP, dokill=False):
-            self.kill()
+            self.velocity_x = self.velocity_x * -1
+            self.velocity_y = self.velocity_y * -1
+
 
 
     def update(self):
