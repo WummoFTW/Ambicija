@@ -79,7 +79,7 @@ class Main_Character_Collision(pygame.sprite.Sprite):
 
 Building_IMG = {
     1: "Building-1.png",
-    2: "Theehe.png",
+    2: "Tree_1.png",
     3: "Building-3.png",
     4: "Building-4.png"
 
@@ -130,7 +130,6 @@ class Tree(pygame.sprite.Sprite):
 
 
 class Tree_Collision(pygame.sprite.Sprite):
-
     def __init__(self, coord_x, coord_y, type):
 
         super().__init__()
@@ -172,14 +171,12 @@ class Bullet(pygame.sprite.Sprite):
 
         self.lifetime = pygame.time.get_ticks() + 3000
 
-
     def removeBullet(self):
         if pygame.time.get_ticks() >= self.lifetime:
             self.kill()
         if pygame.sprite.spritecollide(self, BUILDINGS_GROUP, dokill=False):
             self.velocity_x = self.velocity_x * -1
             self.velocity_y = self.velocity_y * -1
-
 
     def update(self):
         self.pos[0] += self.velocity_x + World.Delta_X
