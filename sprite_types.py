@@ -8,11 +8,14 @@ import math
 MAGENTA = (255, 0, 255)
 WHITE = (255, 255, 255)
 
+
+DECO_GROUP = pygame.sprite.Group()
 BUILDINGS_GROUP = pygame.sprite.Group()
 PLAYER_GROUP = pygame.sprite.Group()
 PLAYER_COLLISION = pygame.sprite.Group()
 BULLETS = pygame.sprite.Group()
 NPC_GROUP = pygame.sprite.Group()
+
 
 class Main_Character(pygame.sprite.Sprite):
 
@@ -35,17 +38,13 @@ class Main_Character(pygame.sprite.Sprite):
     Rotation = [False, False, False, False, False]
 
     Health = 1
-    Speed = 20
+    Speed = 6
 
     def rot_center(image, rect, angle):
         rot_image = pygame.transform.rotate(image, angle)
         rot_rect = rot_image.get_rect(center=rect.center)
-        return rot_image
+        return rot_image, rot_rect
 
-    def rot_center_rect(image, rect, angle):
-        rot_image = pygame.transform.rotate(image, angle)
-        rot_rect = rot_image.get_rect(center=rect.center)
-        return rot_rect
 
     def update(self):
 
@@ -54,10 +53,10 @@ class Main_Character(pygame.sprite.Sprite):
         self.a = -math.degrees(math.atan2(y, x))
 
         self.sprite.fill(MAGENTA)
-        modded = Main_Character.rot_center(self.boi, self.rect, self.a)
+        modded = Main_Character.rot_center(self.boi, self.rect, self.a)[0]
 
         self.sprite.blit(modded, (0, 0))
-        self.rect = Main_Character.rot_center_rect(self.boi, self.rect, self.a)
+        self.rect = Main_Character.rot_center(self.boi, self.rect, self.a)[1]
 
 
 class Main_Character_Collision(pygame.sprite.Sprite):
@@ -66,14 +65,14 @@ class Main_Character_Collision(pygame.sprite.Sprite):
 
         super().__init__()
 
-        self.Width = 36
-        self.Height = 36
+        self.Width = 10
+        self.Height = 10
 
         self.image = pygame.Surface([self.Height, self.Width])
         self.image.fill((255, 255, 255))
         self.image.set_colorkey((255, 255, 255))
 
-        pygame.draw.rect(self.image, (255, 255, 255), [0, 0, 150, 20])
+
 
         self.rect = self.image.get_rect()
 
@@ -106,7 +105,56 @@ class Building(pygame.sprite.Sprite):
     def place(self, coord_x, coord_y, type):
         return Building(coord_x, coord_y, type)
 
+class Tree(pygame.sprite.Sprite):
 
+    def __init__(self, coord_x, coord_y, type):
+
+        super().__init__()
+
+        self.multiplier = 3
+
+        self.image = pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha()
+
+        self.image = pygame.transform.scale(
+            pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha(),
+            (self.image.get_rect()[2] * self.multiplier, self.image.get_rect()[3] * self.multiplier))
+        self.rect = self.image.get_rect()
+
+        self.X, self.Y = coord_x, coord_y
+
+    def update(self):
+        self.rect.center = (self.X + World.X, self.Y + World.Y)
+
+    def place(self, coord_x, coord_y, type):
+        return Tree(coord_x, coord_y, type)
+
+
+class Tree_Collision(pygame.sprite.Sprite):
+
+    def __init__(self, coord_x, coord_y, type):
+
+        super().__init__()
+
+        self.png = pygame.image.load(os.path.join("Assets", Building_IMG.get(type))).convert_alpha()
+
+        self.Width = self.png.get_width()
+        self.Height = self.png.get_height()
+
+        print(self.Width, self.Height)
+
+        self.image = pygame.Surface([self.Width, self.Height])
+        self.image.fill((255, 255, 255))
+        self.image.set_colorkey((255, 255, 255))
+
+        self.rect = self.image.get_rect()
+
+        self.X, self.Y = coord_x, coord_y
+
+    def update(self):
+        self.rect.center = (self.X + World.X, self.Y + World.Y)
+
+    def place(self, coord_x, coord_y, type):
+        return Tree_Collision(coord_x, coord_y, type)
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -115,15 +163,14 @@ class Bullet(pygame.sprite.Sprite):
         # PASUKALIOJAM IR SUTVARKOM
         self.image = pygame.transform.rotate(pygame.image.load(os.path.join("Assets", "Bullet.png")), angle)
         self.rect = self.image.get_rect()
-        speed = 10
+        speed = 20
         # TRIGONOMETRIJA XD
         self.velocity_x = math.cos(math.radians(-angle)) * speed
         self.velocity_y = math.sin(math.radians(-angle)) * speed
 
         self.pos = list(pos)
 
-        self.lifetime = pygame.time.get_ticks() + 30000
-
+        self.lifetime = pygame.time.get_ticks() + 3000
 
 
     def removeBullet(self):
@@ -132,7 +179,6 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, BUILDINGS_GROUP, dokill=False):
             self.velocity_x = self.velocity_x * -1
             self.velocity_y = self.velocity_y * -1
-
 
 
     def update(self):
