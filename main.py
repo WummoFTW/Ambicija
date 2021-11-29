@@ -3,6 +3,7 @@ import pygame
 import sys
 import sprite_types
 import World
+import Menus
 
 pygame.font.init()
 
@@ -15,10 +16,14 @@ pygame.display.set_caption("AMBICIJA")
 pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
 pygame.mouse.set_visible(False)
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
+smallFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 16)
+mediumFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 40)
+largeFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 60)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 100)
+RED = (255, 0, 0)
 
 Player = sprite_types.Main_Character()
 Player.rect.center = (HEIGHT / 2, WIDTH / 2)
@@ -137,6 +142,18 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     World.X = -1000
     World.Y = -1000
 
+    while gameOver == True: # zaidejas mirsta
+        pygame.WIN.fill(BLACK)
+        msg_text("Game Over", RED, y_displace=-50, size="large")
+        msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
+        pygame.display.update()
+        if keypress[pygame.K_r]:
+            main()
+        if keypress[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+            gameOver = False
+
     run = True
     while run:
         clock.tick(FPS)
@@ -177,6 +194,6 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     pygame.quit()
     sys.exit()
 
-
+Mainmenu()
 if __name__ == "__main__": # Patikrina ar failas nebuvo importuotas
     main()
