@@ -3,7 +3,7 @@ import pygame
 import sys
 import sprite_types
 import World
-import Menus
+
 
 pygame.font.init()
 
@@ -16,9 +16,9 @@ pygame.display.set_caption("AMBICIJA")
 pygame.display.set_icon(pygame.image.load(os.path.join("Assets", "icon.png")))
 pygame.mouse.set_visible(False)
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
-smallFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 16)
-mediumFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 40)
-largeFont = pygame.font.Font(os.path.join("Assets", "8-BIT WONDER.ttf"), 60)
+smallFont = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
+mediumFont = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 40)
+largeFont = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 60)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -58,6 +58,55 @@ HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
 TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
 
+def pause():
+    paused = True
+    while paused:
+        if keypress[pygame.K_q]:
+            pygame.quit()
+            sys.exit()
+        if keypress[pygame.K_ESCAPE]:
+            paused=False
+
+        WIN.fill(BLACK)
+        msg_text("Paused", WHITE, -100, size="large")
+        msg_text("Press ESC to continue or Q to quit.", WHITE, 25)
+        pygame.display.update()
+        clock.tick(5)
+
+def text_objects(text,color,size):
+    if size == "small":
+        textSurface = smallFont.render(text, True, color)
+    elif size == "medium":
+        textSurface = mediumFont.render(text, True, color)
+    elif size == "large":
+        textSurface = largeFont.render(text, True, color)
+    return textSurface, textSurface.get_rect()
+
+def Mainmenu():
+    intro = True
+    keypress = pygame.key.get_pressed()
+    while intro==True:
+        #if keypress[pygame.QUIT]:
+            #pygame.quit()
+            #sys.exit()
+        if keypress[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        if keypress[pygame.K_e]:
+            intro = False
+
+        WIN.fill(BLACK)
+        msg_text("AMBICIJA", WHITE, -70, size="large")
+        msg_text("Press E to play", WHITE, 0 , size="medium")
+        msg_text("Press ESC to quit", WHITE, 70, size="small")
+        pygame.display.update()
+        clock.tick(15)
+
+
+def msg_text(msg, color, y_displace=0, size = "medium"):
+    textSurf, textRect = text_objects(msg,color,size)
+    textRect.center = (WIDTH/1.15),(HEIGHT/4)+y_displace  #Menu, Pause, Gameover text pozicija
+    WIN.blit(textSurf,textRect)
 
 def draw_window(): #Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
@@ -75,6 +124,7 @@ def show_info():
 
 
 def controls():
+    global keypress
     keypress = pygame.key.get_pressed()
     if keypress[pygame.K_w]:    #Virsus
         World.Y += Player.Speed
@@ -135,24 +185,23 @@ def Level():
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1846, 1050, 2))
 
 
-
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     Level()
 
     World.X = -1000
     World.Y = -1000
 
-    while gameOver == True: # zaidejas mirsta
-        pygame.WIN.fill(BLACK)
-        msg_text("Game Over", RED, y_displace=-50, size="large")
-        msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
-        pygame.display.update()
-        if keypress[pygame.K_r]:
-            main()
-        if keypress[pygame.K_ESCAPE]:
-            pygame.quit()
-            sys.exit()
-            gameOver = False
+    #while gameOver == True: # zaidejas mirsta
+        #WIN.fill(BLACK)
+        #msg_text("Game Over", RED, y_displace=-50, size="large")
+        #msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
+        #WIN.update()
+        #if keypress[pygame.K_r]:
+         #   main()
+        #if keypress[pygame.K_ESCAPE]:
+         #   gameOver = False
+          #  pygame.quit()
+           # sys.exit()
 
     run = True
     while run:
@@ -164,6 +213,7 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         World.Last_Y = World.Y
         collision()
         controls()
+        pause()
 
         WIN.fill((50, 50, 50))
         draw_window()
@@ -194,6 +244,7 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     pygame.quit()
     sys.exit()
 
-Mainmenu()
+
 if __name__ == "__main__": # Patikrina ar failas nebuvo importuotas
+    Mainmenu()
     main()
