@@ -4,10 +4,12 @@ import sys
 import World
 import math
 
+pygame.font.init()
 
 MAGENTA = (255, 0, 255)
 WHITE = (255, 255, 255)
 
+FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
 
 DECO_GROUP = pygame.sprite.Group()
 BUILDINGS_GROUP = pygame.sprite.Group()
@@ -15,7 +17,7 @@ PLAYER_GROUP = pygame.sprite.Group()
 PLAYER_COLLISION = pygame.sprite.Group()
 BULLETS = pygame.sprite.Group()
 NPC_GROUP = pygame.sprite.Group()
-
+BUTTON_GROUP = pygame.sprite.Group()
 
 class Main_Character(pygame.sprite.Sprite):
 
@@ -184,3 +186,26 @@ class Bullet(pygame.sprite.Sprite):
 
         self.rect.center = self.pos
         self.removeBullet()
+
+class Button(pygame.sprite.Sprite):
+
+    def __init__(self, coord_x, coord_y, size_x, size_y, text=''):
+
+        super().__init__()
+
+        self.sprite = pygame.Surface((size_x, size_y))
+        self.sprite.blit(FONT.render(text, True, (255, 255, 255, 255), (0, 0, 0, 255)), (0, 0))
+        self.sprite.set_colorkey(MAGENTA)
+
+        self.image = self.sprite
+        self.rect = self.sprite.get_rect()
+        self.rect.center = (coord_x, coord_y)
+
+
+    def update(self):
+        left, middle, right = pygame.mouse.get_pressed()
+        if self.rect.collidepoint(pygame.mouse.get_pos()[0] - 9, pygame.mouse.get_pos()[1]) and left:
+            self.kill()
+
+    def place(self, coord_x, coord_y, size_x, size_y, text=''):
+        return Button(coord_x, coord_y, size_x, size_y, text)

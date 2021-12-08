@@ -6,9 +6,9 @@ import World
 
 pygame.font.init()
 
-WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
+WIDTH, HEIGHT = 1080, 1920  # Standartiniai apsirasymai, net neklausk, self explanatory
 WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+# WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -41,12 +41,11 @@ Player_Collision_4.rect.center = (HEIGHT / 2+10, WIDTH / 2)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_4)
 
 
-
-
 Pastatas = sprite_types.Building(2000, 2000, 1)
 Medis = sprite_types.Tree(2000, 2000, 1)
 Medis_collision = sprite_types.Tree_Collision(2000, 2000, 1)
 
+Button = sprite_types.Button(1000, 1000, 100, 16, text="LOL XD")
 
 
 HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
@@ -54,7 +53,7 @@ CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor
 TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
 
 
-def draw_window(): #Piesiamos dekoracijos
+def draw_window():  # Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
 
 
@@ -71,25 +70,25 @@ def show_info():
 
 def controls():
     keypress = pygame.key.get_pressed()
-    if keypress[pygame.K_w]:    #Virsus
+    if keypress[pygame.K_w]:    # Virsus
         World.Y += Player.Speed
         Player.Rotation[3] = True
     else:
         Player.Rotation[3] = False
 
-    if keypress[pygame.K_s]:    #Apacia
+    if keypress[pygame.K_s]:    # Apacia
         World.Y += -Player.Speed
         Player.Rotation[1] = True
     else:
         Player.Rotation[1] = False
 
-    if keypress[pygame.K_a]:    #Kaire
+    if keypress[pygame.K_a]:    # Kaire
         World.X += Player.Speed
         Player.Rotation[2] = True
     else:
         Player.Rotation[2] = False
 
-    if keypress[pygame.K_d]:    #Desine
+    if keypress[pygame.K_d]:    # Desine
         World.X += -Player.Speed
         Player.Rotation[4] = True
     else:
@@ -128,13 +127,13 @@ def Level():
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1250, 1000, 2))
     sprite_types.DECO_GROUP.add(Medis.place(1846, 1050, 2))
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1846, 1050, 2))
-
+    sprite_types.BUTTON_GROUP.add(Button.place(100, 100, 100, 16, text='LOL XD'))
 
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     Level()
 
-    World.X = -1000
+    World.X = -900
     World.Y = -1000
 
     run = True
@@ -151,7 +150,6 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         WIN.fill((50, 50, 50))
         draw_window()
 
-
         sprite_types.BULLETS.update()
         sprite_types.BULLETS.draw(WIN)
 
@@ -167,9 +165,11 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         sprite_types.PLAYER_COLLISION.update()
         sprite_types.PLAYER_COLLISION.draw(WIN)
 
+        sprite_types.BUTTON_GROUP.update()
+        sprite_types.BUTTON_GROUP.draw(WIN)
+
         show_info()
         draw_UI()
-
         World.find_delta()
         pygame.display.update()
         pygame.display.flip()

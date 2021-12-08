@@ -1,11 +1,12 @@
 import os
 import pygame
 import main
-
+import sys
 
 
 def Mainmenu():
     intro = True
+    keypress = pygame.key.get_pressed()
     while intro:
         if keypress[pygame.K_ESCAPE]:
             pygame.quit()
@@ -22,6 +23,7 @@ def Mainmenu():
 
 def pause():
     paused = True
+    keypress = pygame.key.get_pressed()
     while paused:
         if keypress[pygame.K_BACKSPACE]:
             pygame.quit()
