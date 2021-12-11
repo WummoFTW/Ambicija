@@ -100,6 +100,32 @@ def Mainmenu():
                     pygame.quit()
                     quit()
 
+def level_select():
+    Lvl_sel = True
+    WIN.fill(BLACK)
+    msg_text("Select Level", WHITE, -130, size="large")
+    msg_text("Level 1 - Press 1", WHITE, 0, size="medium")
+    msg_text("Level 2 - Press 2", WHITE, 40, size="medium")
+    msg_text("Level 3 - Press 3", RED, 80, size="medium")
+    msg_text("ESACAPE to go back", WHITE, 120, size="small")
+    pygame.display.update()
+
+    while Lvl_sel == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    Lvl_sel = False
+                if event.key==pygame.K_2:
+                    Lvl_sel = False
+                if event.key==pygame.K_3:
+                    Lvl_sel = False
+                if event.key==pygame.K_ESCAPE:
+                    Lvl_sel = False
+                    Mainmenu()
+                    
 
 def msg_text(msg, color, y_displace=0, size = "medium"):
     textSurf, textRect = text_objects(msg,color,size)
