@@ -229,7 +229,7 @@ def Level(lvl):
                 sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
 
     except:
-        quit("Level is not generated yet")
+        quit("World building error")
 
     '''
     sprite_types.DECO_GROUP.add(Medis.place(0, 0, 2))
