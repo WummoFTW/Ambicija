@@ -60,18 +60,51 @@ TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "L
 
 def pause():
     paused = True
-    while paused:
-        if keypress[pygame.K_q]:
-            pygame.quit()
-            sys.exit()
-        if keypress[pygame.K_ESCAPE]:
-            paused=False
+    WIN.fill(BLACK)
+    msg_text("Paused", WHITE, -100, size="large")
+    msg_text("Press Backspace to continue", WHITE, 25)
+    msg_text("Or q to quit the game.", WHITE, 85)
+    pygame.display.update()
 
-        WIN.fill(BLACK)
-        msg_text("Paused", WHITE, -100, size="large")
-        msg_text("Press ESC to continue or Q to quit.", WHITE, 25)
-        pygame.display.update()
-        clock.tick(5)
+    while paused==True:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    paused = False
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+
+def Mainmenu():
+    intro = True
+    WIN.fill(BLACK)
+    msg_text("AMBICIJA", WHITE, -70, size="large")
+    msg_text("Press E to play", WHITE, 0, size="medium")
+    msg_text("Press ESC to quit", WHITE, 70, size="small")
+    pygame.display.update()
+
+    while intro==True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_e:
+                    intro = False
+                if event.key==pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+
+
+def msg_text(msg, color, y_displace=0, size = "medium"):
+    textSurf, textRect = text_objects(msg,color,size)
+    textRect.center = (HEIGHT/2),(WIDTH/2)+y_displace  #Menu, Pause, Gameover text pozicija
+    WIN.blit(textSurf,textRect)
 
 def text_objects(text,color,size):
     if size == "small":
@@ -81,32 +114,6 @@ def text_objects(text,color,size):
     elif size == "large":
         textSurface = largeFont.render(text, True, color)
     return textSurface, textSurface.get_rect()
-
-def Mainmenu():
-    intro = True
-    keypress = pygame.key.get_pressed()
-    while intro==True:
-        #if keypress[pygame.QUIT]:
-            #pygame.quit()
-            #sys.exit()
-        if keypress[pygame.K_ESCAPE]:
-            pygame.quit()
-            sys.exit()
-        if keypress[pygame.K_e]:
-            intro = False
-
-        WIN.fill(BLACK)
-        msg_text("AMBICIJA", WHITE, -70, size="large")
-        msg_text("Press E to play", WHITE, 0 , size="medium")
-        msg_text("Press ESC to quit", WHITE, 70, size="small")
-        pygame.display.update()
-        clock.tick(15)
-
-
-def msg_text(msg, color, y_displace=0, size = "medium"):
-    textSurf, textRect = text_objects(msg,color,size)
-    textRect.center = (WIDTH/1.15),(HEIGHT/4)+y_displace  #Menu, Pause, Gameover text pozicija
-    WIN.blit(textSurf,textRect)
 
 def draw_window(): #Piesiamos dekoracijos
     WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
@@ -149,6 +156,10 @@ def controls():
         Player.Rotation[4] = True
     else:
         Player.Rotation[4] = False
+
+    if keypress[pygame.K_ESCAPE]: #Pauzė
+        pause()
+
 
     left, middle, right = pygame.mouse.get_pressed()
     if left:
@@ -213,7 +224,6 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         World.Last_Y = World.Y
         collision()
         controls()
-        pause()
 
         WIN.fill((50, 50, 50))
         draw_window()
