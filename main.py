@@ -82,9 +82,9 @@ def pause():
 def Mainmenu():
     intro = True
     WIN.fill(BLACK)
-    msg_text("AMBICIJA", WHITE, -70, size="large")
+    msg_text("AMBICIJA", WHITE, -130, size="large")
     msg_text("Press E to play", WHITE, 0, size="medium")
-    msg_text("Press ESC to quit", WHITE, 70, size="small")
+    msg_text("Press ESC to quit", WHITE, 60, size="small")
     pygame.display.update()
 
     while intro==True:
