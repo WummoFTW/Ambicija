@@ -64,19 +64,19 @@ def pause():
     msg_text("Paused", WHITE, -100, size="large")
     msg_text("Press Backspace to continue", WHITE, 25)
     msg_text("Or q to quit the game.", WHITE, 85)
+    msg_text("m to go back to main menu", WHITE, 150, size="small")
     pygame.display.update()
 
     while paused==True:
         for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                pygame.quit()
-                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     paused = False
                 if event.key == pygame.K_q:
                     pygame.quit()
                     quit()
+                if event.key == pygame.K_m:
+                    Mainmenu()
 
 
 def Mainmenu():
@@ -112,16 +112,16 @@ def level_select():
 
     while Lvl_sel == True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     Lvl_sel = False
+                    main()
                 if event.key==pygame.K_2:
                     Lvl_sel = False
+                    main()
                 if event.key==pygame.K_3:
                     Lvl_sel = False
+                    main()
                 if event.key==pygame.K_ESCAPE:
                     Lvl_sel = False
                     Mainmenu()
@@ -306,4 +306,4 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
 
 if __name__ == "__main__": # Patikrina ar failas nebuvo importuotas
     Mainmenu()
-    main()
+    #main()
