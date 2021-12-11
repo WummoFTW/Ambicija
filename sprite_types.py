@@ -105,7 +105,7 @@ class Building(pygame.sprite.Sprite):
         self.rect.center = (self.X + World.X, self.Y + World.Y)
 
     def place(self, coord_x, coord_y, type):
-        return Building(coord_x, coord_y, type)
+        return Building(coord_x+960, coord_y+540, type)
 
 class Tree(pygame.sprite.Sprite):
 
@@ -128,7 +128,7 @@ class Tree(pygame.sprite.Sprite):
         self.rect.center = (self.X + World.X, self.Y + World.Y)
 
     def place(self, coord_x, coord_y, type):
-        return Tree(coord_x, coord_y, type)
+        return Tree(coord_x+960, coord_y+540, type)
 
 
 class Tree_Collision(pygame.sprite.Sprite):
@@ -155,7 +155,7 @@ class Tree_Collision(pygame.sprite.Sprite):
         self.rect.center = (self.X + World.X, self.Y + World.Y)
 
     def place(self, coord_x, coord_y, type):
-        return Tree_Collision(coord_x, coord_y, type)
+        return Tree_Collision(coord_x+960, coord_y+540, type)
 
 
 class Bullet(pygame.sprite.Sprite):

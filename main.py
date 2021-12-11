@@ -8,8 +8,8 @@ import World
 pygame.font.init()
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
-WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+#WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -116,12 +116,15 @@ def level_select():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     Lvl_sel = False
+                    World.Level = 1
                     main()
                 if event.key==pygame.K_2:
                     Lvl_sel = False
+                    World.Level = 2
                     main()
                 if event.key==pygame.K_3:
                     Lvl_sel = False
+                    World.Level = 3
                     main()
                 if event.key==pygame.K_ESCAPE:
                     Lvl_sel = False
@@ -209,20 +212,24 @@ def collision():
 
 
 def Level(lvl):
-    path = str(lvl) + ".lvl"
+    try:
+        path = str(lvl) + ".lvl"
 
-    f = open(path, 'r').readlines()
+        f = open(path, 'r').readlines()
 
-    for x in range(len(f)):
+        for x in range(len(f)):
 
-        data = f[x].split()
-        print(data)
+            data = f[x].split()
+            print(data)
 
-        if int(data[0]) == 1:
-            sprite_types.BUILDINGS_GROUP.add(Pastatas.place(int(data[1]), int(data[2]), int(data[3])))
-        elif int(data[0]) == 2:
-            sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(int(data[1]), int(data[2]), int(data[3])))
-            sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
+            if int(data[0]) == 1:
+                sprite_types.BUILDINGS_GROUP.add(Pastatas.place(int(data[1]), int(data[2]), int(data[3])))
+            elif int(data[0]) == 2:
+                sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(int(data[1]), int(data[2]), int(data[3])))
+                sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
+
+    except:
+        quit("Level is not generated yet")
 
     '''
     sprite_types.DECO_GROUP.add(Medis.place(0, 0, 2))
@@ -238,30 +245,32 @@ def Level(lvl):
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1846, 1050, 2))
     '''
 
+'''
+    if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
+        gameOver = True
+    while gameOver == True: # zaidejas mirsta
+        WIN.fill(BLACK)
+        msg_text("Game Over", RED, y_displace=-50, size="large")
+        msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
+        WIN.update()
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    gameOver=False
+                    main()
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+'''
+
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
-    Level(1)
+    Level(World.Level)
 
-    World.X = -900
-    World.Y = -1000
-
-    #if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
-        #gameOver = True
-    #while gameOver == True: # zaidejas mirsta
-        #WIN.fill(BLACK)
-        #msg_text("Game Over", RED, y_displace=-50, size="large")
-        #msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
-        #WIN.update()
-        #for event in pygame.event.get():
-            #if event.type==pygame.QUIT:
-                #pygame.quit()
-                #quit()
-            #if event.type == pygame.KEYDOWN:
-                #if event.key == pygame.K_r:
-                    #gameOver=False
-                    #main()
-                #if event.key == pygame.K_ESCAPE:
-                    #pygame.quit()
-                    #quit()
+    World.X = -100
+    World.Y = -100
 
 
     run = True

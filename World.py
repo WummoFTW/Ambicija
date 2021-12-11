@@ -12,6 +12,8 @@ Last_Y = Y
 Delta_X = 0
 Delta_Y = 0
 
+Level = 1
+
 def find_delta():
     global Delta_X
     global Delta_Y
