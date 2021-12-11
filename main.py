@@ -8,8 +8,8 @@ import World
 pygame.font.init()
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
-WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+#WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -181,7 +181,7 @@ def collision():
         World.X += Player.Speed
 
 
-def Level():
+def Level(lvl):
 
     sprite_types.DECO_GROUP.add(Medis.place(0, 0, 2))
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(0, 0, 2))
@@ -197,12 +197,12 @@ def Level():
 
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
-    Level()
+    Level(1)
 
-    World.X = -1000
+    World.X = -900
     World.Y = -1000
 
-    #if Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined)
+    #if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
         #gameOver = True
     #while gameOver == True: # zaidejas mirsta
         #WIN.fill(BLACK)
