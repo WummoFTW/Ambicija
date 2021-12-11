@@ -141,7 +141,7 @@ class Tree_Collision(pygame.sprite.Sprite):
         self.Width = self.png.get_width()
         self.Height = self.png.get_height()
 
-        print(self.Width, self.Height)
+
 
         self.image = pygame.Surface([self.Width, self.Height])
         self.image.fill((255, 255, 255))

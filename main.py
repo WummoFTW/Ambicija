@@ -8,8 +8,8 @@ import World
 pygame.font.init()
 
 WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -182,7 +182,22 @@ def collision():
 
 
 def Level(lvl):
+    path = str(lvl) + ".lvl"
 
+    f = open(path, 'r').readlines()
+
+    for x in range(len(f)):
+
+        data = f[x].split()
+        print(data)
+
+        if int(data[0]) == 1:
+            sprite_types.BUILDINGS_GROUP.add(Pastatas.place(int(data[1]), int(data[2]), int(data[3])))
+        elif int(data[0]) == 2:
+            sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(int(data[1]), int(data[2]), int(data[3])))
+            sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
+
+    '''
     sprite_types.DECO_GROUP.add(Medis.place(0, 0, 2))
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(0, 0, 2))
 
@@ -194,7 +209,7 @@ def Level(lvl):
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1250, 1000, 2))
     sprite_types.DECO_GROUP.add(Medis.place(1846, 1050, 2))
     sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1846, 1050, 2))
-
+    '''
 
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     Level(1)
