@@ -95,6 +95,7 @@ def Mainmenu():
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_e:
+                    level_select()
                     intro = False
                 if event.key==pygame.K_ESCAPE:
                     pygame.quit()
