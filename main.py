@@ -13,7 +13,7 @@ if World.Fullscreen:
 else:
     WIN = pygame.display.set_mode((HEIGHT, WIDTH))
 
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -33,6 +33,10 @@ Player = sprite_types.Main_Character()
 Player.rect.center = (HEIGHT / 2, WIDTH / 2)
 sprite_types.PLAYER_GROUP.add(Player)
 
+LEGS = sprite_types.Legs()
+LEGS.rect.center = (HEIGHT / 2, WIDTH / 2)
+sprite_types.LOWER_DECO_GROUP.add(LEGS)
+
 Player_Collision_1 = sprite_types.Main_Character_Collision()
 Player_Collision_1.rect.center = (HEIGHT / 2, WIDTH / 2-10)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_1)
@@ -51,7 +55,6 @@ sprite_types.PLAYER_COLLISION.add(Player_Collision_4)
 
 
 
-
 Pastatas = sprite_types.Building(2000, 2000, 1)
 Medis = sprite_types.Tree(2000, 2000, 1)
 Medis_collision = sprite_types.Tree_Collision(2000, 2000, 1)
@@ -60,7 +63,10 @@ Medis_collision = sprite_types.Tree_Collision(2000, 2000, 1)
 
 HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
-TERRAIN_1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
+TERRAIN_1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
+TERRAIN_2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
+TERRAIN_3 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
+
 def goFullscreen():
     if World.Fullscreen:
         World.Fullscreen = False
@@ -180,29 +186,25 @@ def show_info():
 def controls():
     global keypress
     keypress = pygame.key.get_pressed()
-    if keypress[pygame.K_w]:    # Virsus
+    if keypress[pygame.K_w]:    # Virsus 2
         World.Y += Player.Speed
-        Player.Rotation[3] = True
-    else:
-        Player.Rotation[3] = False
+        LEGS.a = 90
 
-    if keypress[pygame.K_s]:    # Apacia
+
+    if keypress[pygame.K_s]:    # Apacia 4
         World.Y += -Player.Speed
-        Player.Rotation[1] = True
-    else:
-        Player.Rotation[1] = False
+        LEGS.a = 270
 
-    if keypress[pygame.K_a]:    # Kaire
+
+    if keypress[pygame.K_a]:    # Kaire 3
         World.X += Player.Speed
-        Player.Rotation[2] = True
-    else:
-        Player.Rotation[2] = False
+        LEGS.a = 180
 
-    if keypress[pygame.K_d]:    # Desine
+
+    if keypress[pygame.K_d]:    # Desine 1
         World.X += -Player.Speed
-        Player.Rotation[4] = True
-    else:
-        Player.Rotation[4] = False
+        LEGS.a = 0
+
 
     if keypress[pygame.K_ESCAPE]:  # Pauzė
         pause()
@@ -242,6 +244,8 @@ def Level(lvl):
                 sprite_types.BUILDINGS_GROUP.add(Pastatas.place(int(data[1]), int(data[2]), int(data[3])))
             elif int(data[0]) == 2:
                 sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(int(data[1]), int(data[2]), int(data[3])))
+                sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
+            elif int(data[0]) == 3:
                 sprite_types.DECO_GROUP.add(Medis.place(int(data[1]), int(data[2]), int(data[3])))
 
     except:
@@ -291,6 +295,8 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
         WIN.fill((50, 50, 50))
         draw_window()
 
+        sprite_types.LOWER_DECO_GROUP.update()
+        sprite_types.LOWER_DECO_GROUP.draw(WIN)
 
         sprite_types.BULLETS.update()
         sprite_types.BULLETS.draw(WIN)

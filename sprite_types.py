@@ -3,6 +3,7 @@ import pygame
 import sys
 import World
 import math
+import random
 
 pygame.font.init()
 
@@ -11,6 +12,8 @@ WHITE = (255, 255, 255)
 
 FONT = pygame.font.Font(os.path.join("Assets", "kongtext.ttf"), 16)
 
+
+LOWER_DECO_GROUP = pygame.sprite.Group()
 DECO_GROUP = pygame.sprite.Group()
 BUILDINGS_GROUP = pygame.sprite.Group()
 PLAYER_GROUP = pygame.sprite.Group()
@@ -59,6 +62,64 @@ class Main_Character(pygame.sprite.Sprite):
 
         self.sprite.blit(modded, (0, 0))
         self.rect = Main_Character.rot_center(self.boi, self.rect, self.a)[1]
+
+
+class Legs(pygame.sprite.Sprite):
+
+    def __init__(self):
+
+        super().__init__()
+
+        self.image = pygame.Surface((100, 100))
+        self.image_modded = self.image
+        self.image.fill(MAGENTA)
+        self.image.set_colorkey(MAGENTA)
+        self.image_modded.set_colorkey(MAGENTA)
+
+        self.img = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Char_1.png")).convert_alpha(), (1054*3, 916*3))
+        self.Sprites = {
+            1: (790*3, 695*3, 27*3, 15*3),
+            2: (790*3, 728*3, 27*3, 15*3),
+            3: (790*3, 761*3, 27*3, 15*3),
+            4: (790*3, 793*3, 27*3, 15*3),
+            5: (790*3, 827*3, 27*3, 15*3),
+            6: (790*3, 860*3, 27*3, 15*3),
+            7: (790*3, 893*3, 27*3, 15*3),
+            8: (826 * 3, 628 * 3, 27 * 3, 15 * 3),
+            9: (858 * 3, 628 * 3, 27 * 3, 15 * 3),
+            10: (890 * 3, 628 * 3, 27 * 3, 15 * 3),
+            11: (922 * 3, 628 * 3, 27 * 3, 15 * 3),
+            12: (954 * 3, 628 * 3, 27 * 3, 15 * 3),
+            13: (986 * 3, 628 * 3, 27 * 3, 15 * 3),
+            14: (1018 * 3, 628 * 3, 27 * 3, 15 * 3),
+        }
+        self.Rotation = [False, False, False, False, False]
+        self.x = 0
+        self.a = 0
+        self.rect = self.image.get_rect()
+
+    def rot_center(image, rect, angle):
+        rot_image = pygame.transform.rotate(image, angle)
+        rot_rect = rot_image.get_rect(center=rect.center)
+        return rot_image, rot_rect
+
+    def update(self):
+
+        keypress = pygame.key.get_pressed()
+        if keypress[pygame.K_w] or keypress[pygame.K_a] or keypress[pygame.K_s] or keypress[pygame.K_d]:  # Virsus
+            self.x += 0.5
+            if self.x > 14:
+                self.x = 1
+            self.image.fill(MAGENTA)
+            self.image.blit(self.img, (9.5, 27.5), self.Sprites.get(round(self.x)))
+            self.image_modded = pygame.transform.rotate(self.image, self.a)
+
+
+
+        self.image = self.image_modded
+
+
+
 
 
 class Main_Character_Collision(pygame.sprite.Sprite):
@@ -177,8 +238,8 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.time.get_ticks() >= self.lifetime:
             self.kill()
         if pygame.sprite.spritecollide(self, BUILDINGS_GROUP, dokill=False):
-            self.velocity_x = self.velocity_x * -1
-            self.velocity_y = self.velocity_y * -1
+            self.velocity_x = self.velocity_x * -1 + random.randint(-2, 2)
+            self.velocity_y = self.velocity_y * -1 + random.randint(-2, 2)
 
     def update(self):
         self.pos[0] += self.velocity_x + World.Delta_X
