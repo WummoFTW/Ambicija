@@ -14,6 +14,8 @@ Delta_Y = 0
 
 Level = 1
 
+Fullscreen = False
+
 def find_delta():
     global Delta_X
     global Delta_Y

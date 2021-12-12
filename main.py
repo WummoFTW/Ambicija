@@ -7,9 +7,13 @@ import World
 
 pygame.font.init()
 
-WIDTH, HEIGHT = 1080, 1920  #Standartiniai apsirasymai, net neklausk, self explanatory
-#WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+WIDTH, HEIGHT = World.WIDTH, World.HEIGHT #Standartiniai apsirasymai, net neklausk, self explanatory
+if World.Fullscreen:
+    WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+else:
+    WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+
+#WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.set_caption("AMBICIJA")
@@ -56,7 +60,14 @@ Medis_collision = sprite_types.Tree_Collision(2000, 2000, 1)
 
 HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
 CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
-TEST_GRASS2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
+TERRAIN_1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3640*2, 2160*2)).convert()
+def goFullscreen():
+    if World.Fullscreen:
+        World.Fullscreen = False
+        WIN = pygame.display.set_mode((HEIGHT, WIDTH))
+    else:
+        World.Fullscreen = True
+        WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 
 def pause():
     paused = True
@@ -70,6 +81,8 @@ def pause():
     while paused==True:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_f:
+                    goFullscreen()
                 if event.key == pygame.K_BACKSPACE:
                     paused = False
                 if event.key == pygame.K_q:
@@ -97,6 +110,8 @@ def Mainmenu():
                 if event.key==pygame.K_e:
                     level_select()
                     intro = False
+                if event.key==pygame.K_f:
+                    goFullscreen()
                 if event.key==pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
@@ -114,27 +129,29 @@ def level_select():
     while Lvl_sel == True:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_f:
+                    goFullscreen()
                 if event.key == pygame.K_1:
                     Lvl_sel = False
                     World.Level = 1
                     main()
-                if event.key==pygame.K_2:
+                if event.key == pygame.K_2:
                     Lvl_sel = False
                     World.Level = 2
                     main()
-                if event.key==pygame.K_3:
+                if event.key == pygame.K_3:
                     Lvl_sel = False
                     World.Level = 3
                     main()
-                if event.key==pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     Lvl_sel = False
                     Mainmenu()
                     
 
-def msg_text(msg, color, y_displace=0, size = "medium"):
-    textSurf, textRect = text_objects(msg,color,size)
-    textRect.center = (HEIGHT/2),(WIDTH/2)+y_displace  #Menu, Pause, Gameover text pozicija
-    WIN.blit(textSurf,textRect)
+def msg_text(msg, color, y_displace=0, size="medium"):
+    textSurf, textRect = text_objects(msg, color, size)
+    textRect.center = (HEIGHT/2), (WIDTH/2)+y_displace  # Menu, Pause, Gameover text pozicija
+    WIN.blit(textSurf, textRect)
 
 def text_objects(text,color,size):
     if size == "small":
@@ -146,11 +163,11 @@ def text_objects(text,color,size):
     return textSurface, textSurface.get_rect()
 
 def draw_window(): #Piesiamos dekoracijos
-    WIN.blit(TEST_GRASS2, (0 + World.X, 0 + World.Y))
+    WIN.blit(TERRAIN_1, (0 + World.X, 0 + World.Y))
 
 
 def draw_UI():
-    WIN.blit(HP_BAR, (1464, 1040), (0, 0, 448, 32))
+    WIN.blit(HP_BAR, (HEIGHT/2 + 504 * HEIGHT/1920, WIDTH/2 + 500 * WIDTH/1080), (0, 0, 448, 32))
     pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390*Player.Health, 20))
     WIN.blit(CURSOR, (pygame.mouse.get_pos()[0] - 9, pygame.mouse.get_pos()[1] - 9))
 
@@ -163,33 +180,32 @@ def show_info():
 def controls():
     global keypress
     keypress = pygame.key.get_pressed()
-    if keypress[pygame.K_w]:    #Virsus
+    if keypress[pygame.K_w]:    # Virsus
         World.Y += Player.Speed
         Player.Rotation[3] = True
     else:
         Player.Rotation[3] = False
 
-    if keypress[pygame.K_s]:    #Apacia
+    if keypress[pygame.K_s]:    # Apacia
         World.Y += -Player.Speed
         Player.Rotation[1] = True
     else:
         Player.Rotation[1] = False
 
-    if keypress[pygame.K_a]:    #Kaire
+    if keypress[pygame.K_a]:    # Kaire
         World.X += Player.Speed
         Player.Rotation[2] = True
     else:
         Player.Rotation[2] = False
 
-    if keypress[pygame.K_d]:    #Desine
+    if keypress[pygame.K_d]:    # Desine
         World.X += -Player.Speed
         Player.Rotation[4] = True
     else:
         Player.Rotation[4] = False
 
-    if keypress[pygame.K_ESCAPE]: #Pauzė
+    if keypress[pygame.K_ESCAPE]:  # Pauzė
         pause()
-
 
     left, middle, right = pygame.mouse.get_pressed()
     if left:
@@ -231,19 +247,7 @@ def Level(lvl):
     except:
         quit("World building error")
 
-    '''
-    sprite_types.DECO_GROUP.add(Medis.place(0, 0, 2))
-    sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(0, 0, 2))
 
-    sprite_types.BUILDINGS_GROUP.add(Pastatas.place(2200, 1600, 1))
-
-    sprite_types.DECO_GROUP.add(Medis.place(1200, 1300, 2))
-    sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1200, 1300, 2))
-    sprite_types.DECO_GROUP.add(Medis.place(1250, 1000, 2))
-    sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1250, 1000, 2))
-    sprite_types.DECO_GROUP.add(Medis.place(1846, 1050, 2))
-    sprite_types.BUILDINGS_GROUP.add(Medis_collision.place(1846, 1050, 2))
-    '''
 
 '''
     if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
