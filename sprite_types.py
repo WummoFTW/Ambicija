@@ -76,32 +76,29 @@ class Legs(pygame.sprite.Sprite):
         self.image.set_colorkey(MAGENTA)
         self.image_modded.set_colorkey(MAGENTA)
 
-        self.img = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Char_1.png")).convert_alpha(), (1054*3, 916*3))
+        self.resizer = 2.5
+
+        self.img = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Char_1.png")).convert_alpha(), (1054*self.resizer, 916*self.resizer))
         self.Sprites = {
-            1: (790*3, 695*3, 27*3, 15*3),
-            2: (790*3, 728*3, 27*3, 15*3),
-            3: (790*3, 761*3, 27*3, 15*3),
-            4: (790*3, 793*3, 27*3, 15*3),
-            5: (790*3, 827*3, 27*3, 15*3),
-            6: (790*3, 860*3, 27*3, 15*3),
-            7: (790*3, 893*3, 27*3, 15*3),
-            8: (826 * 3, 628 * 3, 27 * 3, 15 * 3),
-            9: (858 * 3, 628 * 3, 27 * 3, 15 * 3),
-            10: (890 * 3, 628 * 3, 27 * 3, 15 * 3),
-            11: (922 * 3, 628 * 3, 27 * 3, 15 * 3),
-            12: (954 * 3, 628 * 3, 27 * 3, 15 * 3),
-            13: (986 * 3, 628 * 3, 27 * 3, 15 * 3),
-            14: (1018 * 3, 628 * 3, 27 * 3, 15 * 3),
+            1: (790*self.resizer, 695*self.resizer, 27*self.resizer, 15*self.resizer),
+            2: (790*self.resizer, 728*self.resizer, 27*self.resizer, 15*self.resizer),
+            3: (790*self.resizer, 761*self.resizer, 27*self.resizer, 15*self.resizer),
+            4: (790*self.resizer, 793*self.resizer, 27*self.resizer, 15*self.resizer),
+            5: (790*self.resizer, 827*self.resizer, 27*self.resizer, 15*self.resizer),
+            6: (790*self.resizer, 860*self.resizer, 27*self.resizer, 15*self.resizer),
+            7: (790*self.resizer, 893*self.resizer, 27*self.resizer, 15*self.resizer),
+            8: (826*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            9: (858*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            10: (890*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            11: (922*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            12: (954*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            13: (986*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
+            14: (1018*self.resizer, 628*self.resizer, 27*self.resizer, 15*self.resizer),
         }
         self.Rotation = [False, False, False, False, False]
         self.x = 0
         self.a = 0
         self.rect = self.image.get_rect()
-
-    def rot_center(image, rect, angle):
-        rot_image = pygame.transform.rotate(image, angle)
-        rot_rect = rot_image.get_rect(center=rect.center)
-        return rot_image, rot_rect
 
     def update(self):
 
@@ -111,10 +108,8 @@ class Legs(pygame.sprite.Sprite):
             if self.x > 14:
                 self.x = 1
             self.image.fill(MAGENTA)
-            self.image.blit(self.img, (9.5, 27.5), self.Sprites.get(round(self.x)))
+            self.image.blit(self.img, (16.25, 31.25), self.Sprites.get(round(self.x))) # TODO Sutvarkyk kojas XD reikia pakaitaliot kintamuju vertes
             self.image_modded = pygame.transform.rotate(self.image, self.a)
-
-
 
         self.image = self.image_modded
 
