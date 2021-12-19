@@ -108,7 +108,7 @@ class Legs(pygame.sprite.Sprite):
             if self.x > 14:
                 self.x = 1
             self.image.fill(MAGENTA)
-            self.image.blit(self.img, (16.25, 31.25), self.Sprites.get(round(self.x))) # TODO Sutvarkyk kojas XD reikia pakaitaliot kintamuju vertes
+            self.image.blit(self.img, (16.25, 31.25), self.Sprites.get(round(self.x))) # As pasiduodu
             self.image_modded = pygame.transform.rotate(self.image, self.a)
 
         self.image = self.image_modded
@@ -253,7 +253,7 @@ class Button(pygame.sprite.Sprite):
         self.sprite.blit(FONT.render(text, True, (255, 255, 255, 255), (0, 0, 0, 255)), (0, 0))
         self.sprite.set_colorkey(MAGENTA)
 
-        self.image = self.sprite
+        self.image = self.sprite #Kas skaitys, tas gaidys
         self.rect = self.sprite.get_rect()
         self.rect.center = (coord_x, coord_y)
 

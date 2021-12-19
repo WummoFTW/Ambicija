@@ -4,15 +4,13 @@ import sys
 import sprite_types
 import World
 
-
 pygame.font.init()
 
-WIDTH, HEIGHT = World.WIDTH, World.HEIGHT #Standartiniai apsirasymai, net neklausk, self explanatory
+WIDTH, HEIGHT = World.WIDTH, World.HEIGHT  # Standartiniai apsirasymai, net neklausk, self explanatory
 if World.Fullscreen:
     WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
 else:
     WIN = pygame.display.set_mode((HEIGHT, WIDTH))
-
 
 FPS = 60
 clock = pygame.time.Clock()
@@ -38,34 +36,34 @@ LEGS.rect.center = (HEIGHT / 2, WIDTH / 2)
 sprite_types.LOWER_DECO_GROUP.add(LEGS)
 
 Player_Collision_1 = sprite_types.Main_Character_Collision()
-Player_Collision_1.rect.center = (HEIGHT / 2, WIDTH / 2-10)
+Player_Collision_1.rect.center = (HEIGHT / 2, WIDTH / 2 - 10)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_1)
 
 Player_Collision_2 = sprite_types.Main_Character_Collision()
-Player_Collision_2.rect.center = (HEIGHT / 2-10, WIDTH / 2)
+Player_Collision_2.rect.center = (HEIGHT / 2 - 10, WIDTH / 2)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_2)
 
 Player_Collision_3 = sprite_types.Main_Character_Collision()
-Player_Collision_3.rect.center = (HEIGHT / 2, WIDTH / 2+10)
+Player_Collision_3.rect.center = (HEIGHT / 2, WIDTH / 2 + 10)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_3)
 
 Player_Collision_4 = sprite_types.Main_Character_Collision()
-Player_Collision_4.rect.center = (HEIGHT / 2+10, WIDTH / 2)
+Player_Collision_4.rect.center = (HEIGHT / 2 + 10, WIDTH / 2)
 sprite_types.PLAYER_COLLISION.add(Player_Collision_4)
-
-
 
 Pastatas = sprite_types.Building(2000, 2000, 1)
 Medis = sprite_types.Tree(2000, 2000, 1)
 Medis_collision = sprite_types.Tree_Collision(2000, 2000, 1)
 
+HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448 * 2, 16 * 2)).convert()
+CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9 * 2, 9 * 2)).convert_alpha()
+TERRAIN_1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")),
+                                   (3840 * 2, 2160 * 2)).convert()
+TERRAIN_2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")),
+                                   (3840 * 2, 2160 * 2)).convert()
+TERRAIN_3 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")),
+                                   (3840 * 2, 2160 * 2)).convert()
 
-
-HP_BAR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "HP_bar.png")), (448*2, 16*2)).convert()
-CURSOR = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Cursor.png")), (9*2, 9*2)).convert_alpha()
-TERRAIN_1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
-TERRAIN_2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
-TERRAIN_3 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Level_1.png")), (3840*2, 2160*2)).convert()
 
 def goFullscreen():
     if World.Fullscreen:
@@ -74,6 +72,7 @@ def goFullscreen():
     else:
         World.Fullscreen = True
         WIN = pygame.display.set_mode((HEIGHT, WIDTH), pygame.FULLSCREEN)
+
 
 def pause():
     paused = True
@@ -84,10 +83,10 @@ def pause():
     msg_text("m to go back to main menu", WHITE, 150, size="small")
     pygame.display.update()
 
-    while paused==True:
+    while paused == True:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_f:
+                if event.key == pygame.K_f:
                     goFullscreen()
                 if event.key == pygame.K_BACKSPACE:
                     paused = False
@@ -106,28 +105,29 @@ def Mainmenu():
     msg_text("Press ESC to quit", WHITE, 60, size="small")
     pygame.display.update()
 
-    while intro==True:
+    while intro == True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_e:
+                if event.key == pygame.K_e:
                     level_select()
                     intro = False
-                if event.key==pygame.K_f:
+                if event.key == pygame.K_f:
                     goFullscreen()
-                if event.key==pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
+
 
 def level_select():
     Lvl_sel = True
     WIN.fill(BLACK)
     msg_text("Select Level", WHITE, -130, size="large")
     msg_text("Level 1 - Press 1", WHITE, 0, size="medium")
-    msg_text("Level 2 - Press 2", WHITE, 40, size="medium")
+    msg_text("Level 2 - Press 2", RED, 40, size="medium")
     msg_text("Level 3 - Press 3", RED, 80, size="medium")
     msg_text("ESACAPE to go back", WHITE, 120, size="small")
     pygame.display.update()
@@ -152,14 +152,15 @@ def level_select():
                 if event.key == pygame.K_ESCAPE:
                     Lvl_sel = False
                     Mainmenu()
-                    
+
 
 def msg_text(msg, color, y_displace=0, size="medium"):
     textSurf, textRect = text_objects(msg, color, size)
-    textRect.center = (HEIGHT/2), (WIDTH/2)+y_displace  # Menu, Pause, Gameover text pozicija
+    textRect.center = (HEIGHT / 2), (WIDTH / 2) + y_displace  # Menu, Pause, Gameover text pozicija
     WIN.blit(textSurf, textRect)
 
-def text_objects(text,color,size):
+
+def text_objects(text, color, size):
     if size == "small":
         textSurface = smallFont.render(text, True, color)
     elif size == "medium":
@@ -168,13 +169,14 @@ def text_objects(text,color,size):
         textSurface = largeFont.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
-def draw_window(): #Piesiamos dekoracijos
+
+def draw_window():  # Piesiamos dekoracijos
     WIN.blit(TERRAIN_1, (0 + World.X, 0 + World.Y))
 
 
 def draw_UI():
-    WIN.blit(HP_BAR, (HEIGHT/2 + 504 * HEIGHT/1920, WIDTH/2 + 500 * WIDTH/1080), (0, 0, 448, 32))
-    pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390*Player.Health, 20))
+    WIN.blit(HP_BAR, (HEIGHT / 2 + 504 * HEIGHT / 1920, WIDTH / 2 + 500 * WIDTH / 1080), (0, 0, 448, 32))
+    pygame.draw.rect(WIN, GREEN, pygame.Rect(1515, 1046, 390 * Player.Health, 20))
     WIN.blit(CURSOR, (pygame.mouse.get_pos()[0] - 9, pygame.mouse.get_pos()[1] - 9))
 
 
@@ -186,25 +188,21 @@ def show_info():
 def controls():
     global keypress
     keypress = pygame.key.get_pressed()
-    if keypress[pygame.K_w]:    # Virsus 2
+    if keypress[pygame.K_w]:  # Virsus 2
         World.Y += Player.Speed
         LEGS.a = 90
 
-
-    if keypress[pygame.K_s]:    # Apacia 4
+    if keypress[pygame.K_s]:  # Apacia 4
         World.Y += -Player.Speed
         LEGS.a = 270
 
-
-    if keypress[pygame.K_a]:    # Kaire 3
+    if keypress[pygame.K_a]:  # Kaire 3
         World.X += Player.Speed
         LEGS.a = 180
 
-
-    if keypress[pygame.K_d]:    # Desine 1
+    if keypress[pygame.K_d]:  # Desine 1
         World.X += -Player.Speed
         LEGS.a = 0
-
 
     if keypress[pygame.K_ESCAPE]:  # Pauzė
         pause()
@@ -252,12 +250,33 @@ def Level(lvl):
         quit("World building error")
 
 
+'''
+    if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
+        gameOver = True
+    while gameOver == True: # zaidejas mirsta
+        WIN.fill(BLACK)
+        msg_text("Game Over", RED, y_displace=-50, size="large")
+        msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
+        WIN.update()
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    gameOver=False
+                    main()
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+'''
+
+
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     Level(World.Level)
 
-    World.X = -100
-    World.Y = -100
-
+    World.X = -850
+    World.Y = -850
 
     run = True
     while run:
@@ -302,6 +321,6 @@ def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     sys.exit()
 
 
-if __name__ == "__main__": # Patikrina ar failas nebuvo importuotas
+if __name__ == "__main__":  # Patikrina ar failas nebuvo importuotas
     Mainmenu()
-    #main()
+    # main()
