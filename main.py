@@ -252,28 +252,6 @@ def Level(lvl):
         quit("World building error")
 
 
-
-'''
-    if Player.Health == 0:  #sorry for the trash kol kas. Gal prireiks (Health not defined) (Man atrodo pataisiau -Karolis)
-        gameOver = True
-    while gameOver == True: # zaidejas mirsta
-        WIN.fill(BLACK)
-        msg_text("Game Over", RED, y_displace=-50, size="large")
-        msg_text("Press R to restart or ESC to quit", WHITE, y_displace=50, size="meidum")
-        WIN.update()
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                pygame.quit()
-                quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    gameOver=False
-                    main()
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    quit()
-'''
-
 def main():  # Main loop'as check'ina visus eventus programoje for example QUIT
     Level(World.Level)
 
