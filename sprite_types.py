@@ -139,7 +139,8 @@ Building_IMG = {
     1: "Building-1.png",
     2: "Tree_1.png",
     3: "Building-3.png",
-    4: "Building-4.png"
+    4: "Building-4.png",
+    5: "Building-2.png"
 
 }
 
