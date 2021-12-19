@@ -135,6 +135,9 @@ def level_select():
     while Lvl_sel == True:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
                 if event.key == pygame.K_f:
                     goFullscreen()
                 if event.key == pygame.K_1:
