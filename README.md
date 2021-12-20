@@ -1,8 +1,8 @@
 # Ambicija
 
-Naujas kitas video žaidimas skirtas tikriems gaymeriams
+Top down bullet hell shooter (iš viršaus žemyn chaotiška šaudyklė) stiliaus žaidimas
 
-Kas skaitys, tas gaidys.
+Šis projektas yra veikiantis žaidimo variklis
 
 .lvl failu aprasymas
 
